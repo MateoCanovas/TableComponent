@@ -1,0 +1,78 @@
+<div class="tableContainer">
+    <h1 style="text-align: center;">Listado de Peliculas</h1>
+
+    <div class="row" style="display: flex;">
+    
+                <div class="col-2"> 
+                    <label style="margin-right: 5px;">Página</label>
+                    <select class="form-select" name="paginas" id="paginas" (change)="seleccionarPagina($event)" style="display: inline-flex;">
+                        <option value="" selected disabled hidden>{{indicePagina}}</option>
+                        <option [value]="page" *ngFor="let page of numPaginas">{{page}}</option>
+                    </select>
+                </div>
+    
+                <div class="col-2">
+                    <label style="margin-right: 5px;">Elementos</label>
+                    <select class="form-select" name="numElementos" id="numElementos" (change)="cambiarNumpeliculasMostradas($event)" >
+                        <option value="" selected disabled hidden>{{numElementosTabla}}</option>
+                        <option value={{item}} *ngFor="let item of peliculasMostradas">{{item}}</option>
+                    </select>
+                </div>
+        
+    
+        <div class="col-4"  style="display: inline-block; margin-top: 20px;">
+            <button type="button" class="btn btn-light" style="margin: 5px;" (click)="ordenarPor('titulo')">Titulo</button>
+            <button type="button" class="btn btn-light" style="margin: 5px;" (click)="ordenarPor('anyo')">Año</button>
+            <button type="button" class="btn btn-light" style="margin: 5px;" (click)="ordenarPor('director')">Director</button>
+            <button type="button" class="btn btn-light" style="margin: 5px;" (click)="ordenarPor('casting')">Casting</button>
+            <button type="button" class="btn btn-light" style="margin: 5px;" (click)="ordenarPor('genero')">GenRe</button>
+            <button type="button" class="btn btn-light" style="margin: 5px;" (click)="ordenarPor('notas')">Notas</button>
+        </div>
+    
+        <div class="col" style="display: inline-block; margin-top: 20px;">
+    
+            <div class="col" style="display: inline-block;">
+                <label style="margin-right: 20px;">Filtrar titulo</label>
+                <input type="text" style="margin: 5px;" placeholder="Filtrar titulo" name="filtro" [(ngModel)]="filtro" (input)="filtrarPor()">
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="row" style="display:block; margin-top: 20px; min-height: 75vh;">
+        <div class="col"> 
+            <table class="table table-dark table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Titulo</th>
+                        <th style="width: 15%;">Año</th>
+                        <th style="width: 15%;">Director</th>
+                        <th style="width: 15%;">Casting</th>
+                        <th style="width: 15%;">Genero/Recaudación</th>
+                        <th style="width: 25%;">Notas</th>
+                    </tr>
+                    
+                </thead>
+                
+                <tbody>
+                    <tr *ngFor="let movie of peliculas | filtroTitulos:filtro | ordenarTabla:ordenacion 
+                                | slice:indiceInferiorTabla:indiceSuperiorTabla">
+                        <td>{{movie.title}}</td>
+                        <td>{{movie.year}}</td>
+                        <td>{{movie.director}}</td>
+                        <td>{{movie.cast}}</td>
+                        <td>{{movie.genre}}</td>
+                        <td>{{movie.notes}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col"  style="margin: 15px; display: flex; justify-content: center;">
+            <button type="button" class="btn btn-light" style="margin: 5px;" (click)="retrocederPagina()"><</button>
+            <button type="button" class="btn btn-light" style="margin: 5px;" (click)="avanzarPagina()">></button>
+        </div>
+    </div>
+</div>
